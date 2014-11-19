@@ -1,0 +1,7 @@
+<?php
+
+/**
+ * @file
+ * Handles the creation/display of islandora:sp-pdf objects.
+ */
+

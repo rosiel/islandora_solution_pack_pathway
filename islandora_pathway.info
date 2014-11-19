@@ -1,0 +1,6 @@
+name = "Islandora Pathway"
+description = "An islandora way to create a path through objects"
+dependencies[] = islandora
+package = Islandora Solution Packs
+core = 7.x
+version = 7.x-dev
