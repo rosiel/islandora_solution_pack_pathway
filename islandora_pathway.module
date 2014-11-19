@@ -81,3 +81,34 @@ function islandora_pathway_islandora_content_model_forms_form_associations() {
   );
 }
 
+/**
+ * Implements hook_menu().
+ */
+function islandora_pathway_menu() {
+
+  return array(
+    'islandora/object/%islandora_object/manage/pathway' => array(
+      'title' => 'Pathway',
+      'page callback' => 'islandora_pathway_manage_object',
+      'page arguments' => array(2),
+      'type' => MENU_LOCAL_TASK,
+      'file' => 'includes/manage_pathway.inc',
+      'access callback' => 'islandora_pathway_manage_access',
+      'access arguments' => array(2),
+    ),
+  );
+}
+
+/**
+ * Determine whether or not to show this modules manage tab.
+ *
+ * @param AbstractObject $object
+ *   The object being managed.
+ *
+ * @return bool
+ *   TRUE if it should be shown, and FALSE if it should not be shown.
+ */
+function islandora_pathway_manage_access($object = NULL) {
+  $is_a_pathway = in_array('islandora:pathwayCModel', $object->models) ? TRUE : FALSE;
+  return $is_a_pathway;
+}
