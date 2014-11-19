@@ -53,3 +53,31 @@ function islandora_pathway_islandora_required_objects(IslandoraTuque $connection
 }
 
 
+/**
+ * Implements hook_islandora_xml_form_builder_forms().
+ */
+function islandora_pathway_islandora_xml_form_builder_forms() {
+  $module_path = drupal_get_path('module', 'islandora_pathway');
+  return array(
+    'Pathway Dublin Core form' => array(
+      'form_file' => "$module_path/xml/islandora_pathway_DC_form.xml",
+    ),
+  );
+}
+
+/**
+ * Implements hook_islandora_content_model_forms_form_associations().
+ */
+function islandora_pathway_islandora_content_model_forms_form_associations() {
+  return array(
+    'islandora_pathway_dc_form' => array(
+      'content_model' => 'islandora:pathwayCModel',
+      'form_name' => 'Pathway Dublin Core form',
+      'dsid' => 'DC',
+      'title_field' => array('dc-title'),
+      'transform' => 'No transform',
+      'template' => FALSE,
+    ),
+  );
+}
+
