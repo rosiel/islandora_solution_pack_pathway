@@ -15,7 +15,7 @@ function islandora_pathway_theme($existing, $type, $theme, $path) {
       'render element' => 'form',
     ),
     'islandora_pathway_object' => array(
-      'variables' => array('object' => NULL),
+      'variables' => array('object' => NULL, 'current_waypoint' => NULL),
       'template' => 'theme/pathway-object',
       'file' => 'theme/pathway_object.theme.inc',
     ),
@@ -105,6 +105,16 @@ function islandora_pathway_menu() {
       'access callback' => 'islandora_pathway_manage_access',
       'access arguments' => array(2),
     ),
+    'islandora/object/%islandora_object/pathway/%islandora_object' => array(
+      'title callback' => 'islandora_drupal_title',
+      'title arguments' => array(4),
+      'page callback' => 'islandora_pathway_view_waypoint',
+      'page arguments' => array(2, 4),
+      'type' => MENU_NORMAL_ITEM,
+      'access callback' => 'islandora_object_access_callback',
+      'access arguments' => array(ISLANDORA_VIEW_OBJECTS, 2),
+
+    ),
   );
 }
 
@@ -126,6 +136,22 @@ function islandora_pathway_manage_access($object = NULL) {
  * Implements hook_CMODEL_PID_islandora_view_object().
  */
 function islandora_pathway_islandora_pathwayCModel_islandora_view_object($object) {
-  $output = theme('islandora_pathway_object', array('object' => $object));
+  $output = theme('islandora_pathway_object', array('object' => $object, 'current_waypoint' => NULL));
   return array('' => $output);
+}
+
+/**
+ * Callback for waypoint paths.
+ */
+function islandora_pathway_view_waypoint(AbstractObject $root_object, AbstractObject $waypoint_object) {
+  module_load_include('module', 'islandora');
+  module_load_include('inc', 'islandora_pathway', 'includes/utilities');
+  // Test if this waypoint object is in the pathway.
+  if (!_islandora_pathway_is_pid_in_pathway($waypoint_object->id, $root_object)) {
+    drupal_goto("islandora/object/$root_object->id");
+  }
+  $output = array();
+  $output[''] = theme('islandora_pathway_object', array('object' => $root_object, 'current_waypoint' => $waypoint_object));
+  islandora_as_renderable_array($output);
+  return $output;
 }

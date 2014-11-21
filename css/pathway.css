@@ -1,0 +1,12 @@
+.pathway-menu {
+    float: left;
+    max-width: 20%;
+    display: block;
+
+}
+
+.islandora-waypoint-content {
+    float: right;
+    max-width: 79%;
+    display: block;
+}
