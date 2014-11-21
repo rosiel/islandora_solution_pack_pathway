@@ -10,7 +10,11 @@
  */
 function islandora_pathway_theme($existing, $type, $theme, $path) {
   // TODO: Add a "pathway" theme that renders the children, menu, etc.
-  return array();
+  return array(
+    'pathway_manage_waypoints' => array(
+      'render element' => 'form',
+    ),
+  );
 }
 
 /**
@@ -112,3 +116,4 @@ function islandora_pathway_manage_access($object = NULL) {
   $is_a_pathway = in_array('islandora:pathwayCModel', $object->models) ? TRUE : FALSE;
   return $is_a_pathway;
 }
+
