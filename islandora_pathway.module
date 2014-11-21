@@ -14,6 +14,11 @@ function islandora_pathway_theme($existing, $type, $theme, $path) {
     'pathway_manage_waypoints' => array(
       'render element' => 'form',
     ),
+    'islandora_pathway_object' => array(
+      'variables' => array('object' => NULL),
+      'template' => 'theme/pathway-object',
+      'file' => 'theme/pathway_object.theme.inc',
+    ),
   );
 }
 
@@ -117,3 +122,10 @@ function islandora_pathway_manage_access($object = NULL) {
   return $is_a_pathway;
 }
 
+/**
+ * Implements hook_CMODEL_PID_islandora_view_object().
+ */
+function islandora_pathway_islandora_pathwayCModel_islandora_view_object($object) {
+  $output = theme('islandora_pathway_object', array('object' => $object));
+  return array('' => $output);
+}
